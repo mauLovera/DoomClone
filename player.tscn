@@ -98,7 +98,7 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI/GunBase"]
-position = Vector2(339, -116)
+position = Vector2(339, -114)
 scale = Vector2(0.606445, 0.606445)
 sprite_frames = SubResource("SpriteFrames_l5avt")
 animation = &"shoot"

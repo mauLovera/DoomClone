@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://cgll4myy3rh7c"]
+
+[ext_resource type="Script" path="res://spawn_point.gd" id="1_gj6ck"]
+[ext_resource type="Texture2D" uid="uid://blvfu3d8mlfgv" path="res://assets/portal_sprites.png" id="1_r0fdd"]
+[ext_resource type="PackedScene" uid="uid://m7n4dpfibji7" path="res://enemy.tscn" id="2_e2smj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fntkw"]
+atlas = ExtResource("1_r0fdd")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4ctn"]
+atlas = ExtResource("1_r0fdd")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vsbn"]
+atlas = ExtResource("1_r0fdd")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfi7h"]
+atlas = ExtResource("1_r0fdd")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ufr16"]
+atlas = ExtResource("1_r0fdd")
+region = Rect2(2048, 0, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wclnt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fntkw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4ctn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vsbn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfi7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ufr16")
+}],
+"loop": true,
+"name": &"active",
+"speed": 4.0
+}]
+
+[node name="SpawnPoint" type="Node3D"]
+transform = Transform3D(1.00151, 0, 0, 0, 1.00151, 0, 0, 0, 1.00151, 0, 0, 0)
+script = ExtResource("1_gj6ck")
+enemy = ExtResource("2_e2smj")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.591709, 0, 0, 0, 0.591709, 0, 0, 0, 1.54244, 0.00727812, 1.31612, -0.140251)
+billboard = 2
+sprite_frames = SubResource("SpriteFrames_wclnt")
+animation = &"active"
+autoplay = "active"
+frame_progress = 0.934054
+
+[node name="Enemy" parent="." instance=ExtResource("2_e2smj")]
+
+[node name="PortalTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="PortalTimer" to="." method="_on_portal_timer_timeout"]
+[connection signal="timeout" from="SpawnTimer" to="Enemy" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
+[connection signal="timeout" from="RespawnTimer" to="Enemy" method="_on_respawn_timer_timeout"]
